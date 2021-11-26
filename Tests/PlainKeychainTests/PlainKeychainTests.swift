@@ -23,23 +23,36 @@ final class PlainKeychainTests: XCTestCase {
     
     func testStoreRetrieveAndUpdate() {
         
-        do {
+        let allAccessRequirements: [PlainKeychainOptions.AccessRequirement] = [
+            .whenUnlocked,
+            .whenUnlockedThisDeviceOnly,
+            .afterFirstUnlock,
+            .afterFirstUnlockThisDeviceOnly,
+            .whenPasscodeSetThisDeviceOnly,
+        ]
         
-            let keychain = PlainKeychain(service: "testStoreRetrieveAndUpdate")
+        for requirement in allAccessRequirements {
+        
+            do {
             
-            let key = "username"
-            let value = "example@example.com"
-            try keychain.setString(value, forKey: key)
-            XCTAssertEqual(try keychain.getString(forKey: key), value)
+                let options = PlainKeychainOptions(accessRequirement: requirement)
+                let keychain = PlainKeychain(service: "testStoreRetrieveAndUpdate", options: options)
+                
+                let key = "username"
+                let value = "example@example.com"
+                try keychain.setString(value, forKey: key)
+                XCTAssertEqual(try keychain.getString(forKey: key), value)
+                
+                let secondValue = "bob@example.com"
+                try keychain.setString(secondValue, forKey: key)
+                XCTAssertEqual(try keychain.getString(forKey: key), secondValue)
+                
+                try keychain.deleteString(forKey: key)
+                
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
             
-            let secondValue = "bob@example.com"
-            try keychain.setString(secondValue, forKey: key)
-            XCTAssertEqual(try keychain.getString(forKey: key), secondValue)
-            
-            try keychain.deleteString(forKey: key)
-            
-        } catch {
-            XCTFail(error.localizedDescription)
         }
         
     }
