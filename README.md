@@ -1,3 +1,21 @@
 # SimpleKeychain
+A really simple key-value wrapper for keychain.
 
-A description of this package.
+## Features
+✅ Key-value pairs using `kSecClassGenericPassword`.
+
+❌ Internet passwords (`kSecClassInternetPassword`).
+❌ Biometric authentication (TouchID or FaceID).
+❌ Cross-app access with `kSecAttrAccessGroup`.
+
+
+## Example
+```swift
+let keychain = SimpleKeychain(service: "MyApp")
+
+try keychain.setItem("John", forKey: "nickname")
+
+try keychain.getItem(forKey: "nickname") // John
+
+try keychain.deleteItem(forKey: "nickname")
+```
