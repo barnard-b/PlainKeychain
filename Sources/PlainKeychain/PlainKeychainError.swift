@@ -30,7 +30,8 @@ public enum PlainKeychainError: LocalizedError {
             
             switch self {
                 case .otherError(let status):
-                    return SecCopyErrorMessageString(status, nil) as String?
+                    // TODO: Localize
+                    return "Keychain: \(SecCopyErrorMessageString(status, nil) as String? ?? "Unknown error")"
                 default:
                     return nil
             }
