@@ -5,7 +5,9 @@ A really simple key-value wrapper for keychain.
 ✅ Key-value pairs using `kSecClassGenericPassword`.
 
 ❌ Internet passwords (`kSecClassInternetPassword`).
+
 ❌ Biometric authentication (TouchID or FaceID).
+
 ❌ Cross-app access with `kSecAttrAccessGroup`.
 
 
