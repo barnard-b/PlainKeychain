@@ -15,9 +15,9 @@ A really simple key-value wrapper for keychain.
 ```swift
 let keychain = PlainKeychain(service: "MyApp")
 
-try keychain.setItem("John", forKey: "nickname")
+try keychain.setString("John", forKey: "nickname")
 
-try keychain.getItem(forKey: "nickname") // John
+try keychain.getString(forKey: "nickname") // John
 
-try keychain.deleteItem(forKey: "nickname")
+try keychain.deleteString(forKey: "nickname")
 ```
