@@ -38,9 +38,9 @@ public struct PlainKeychain {
     }
     
     /**
-     Creates or updates the item with the specified key.
+     Creates or updates the string with the specified key.
      */
-    public func setItem(_ value: String, forKey key: String) throws {
+    public func setString(_ value: String, forKey key: String) throws {
         
         guard let valueData = value.data(using: .utf8) else {
             throw PlainKeychainError.conversionError
@@ -86,9 +86,9 @@ public struct PlainKeychain {
     }
     
     /**
-     Gets the value for the specified key.
+     Gets the string for the specified key.
      */
-    public func getItem(forKey key: String) throws -> String? {
+    public func getString(forKey key: String) throws -> String? {
         
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
@@ -122,9 +122,9 @@ public struct PlainKeychain {
     }
     
     /**
-     Removes the value for the specified key.
+     Removes the string for the specified key.
      */
-    public func deleteItem(forKey key: String) throws {
+    public func deleteString(forKey key: String) throws {
         
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,

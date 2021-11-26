@@ -29,14 +29,14 @@ final class PlainKeychainTests: XCTestCase {
             
             let key = "username"
             let value = "example@example.com"
-            try keychain.setItem(value, forKey: key)
-            XCTAssertEqual(try keychain.getItem(forKey: key), value)
+            try keychain.setString(value, forKey: key)
+            XCTAssertEqual(try keychain.getString(forKey: key), value)
             
             let secondValue = "bob@example.com"
-            try keychain.setItem(secondValue, forKey: key)
-            XCTAssertEqual(try keychain.getItem(forKey: key), secondValue)
+            try keychain.setString(secondValue, forKey: key)
+            XCTAssertEqual(try keychain.getString(forKey: key), secondValue)
             
-            try keychain.deleteItem(forKey: key)
+            try keychain.deleteString(forKey: key)
             
         } catch {
             XCTFail(error.localizedDescription)
@@ -53,11 +53,11 @@ final class PlainKeychainTests: XCTestCase {
             let key = "password"
             let value = "123456<-NeverUseThisPassword😱"
             
-            try keychain.setItem(value, forKey: key)
-            XCTAssertEqual(try keychain.getItem(forKey: key), value)
+            try keychain.setString(value, forKey: key)
+            XCTAssertEqual(try keychain.getString(forKey: key), value)
             
-            try keychain.deleteItem(forKey: key)
-            XCTAssertNil(try keychain.getItem(forKey: key))
+            try keychain.deleteString(forKey: key)
+            XCTAssertNil(try keychain.getString(forKey: key))
         
         } catch {
             XCTFail(error.localizedDescription)
