@@ -1,5 +1,5 @@
 //
-//  SimpleKeychainError.swift
+//  PlainKeychain.swift
 //  Created by Benjamin Barnard on 11/24/21.
 //
 //  Copyright 2021 Benjamin Barnard.
@@ -21,10 +21,10 @@ import Foundation
 /**
  A really simple key-value wrapper for keychain.
  */
-public struct SimpleKeychain {
+public struct PlainKeychain {
     
     private let service: String
-    private let options: SimpleKeychainOptions
+    private let options: PlainKeychainOptions
     
     /**
      A really simple key-value wrapper for keychain.
@@ -32,7 +32,7 @@ public struct SimpleKeychain {
      - parameter options: Options to use for this keychain.
      - parameter service: `kSecAttrService`: An identifier that helps separate items based on the service they are for.
      */
-    public init(service: String, options: SimpleKeychainOptions = .init()) {
+    public init(service: String, options: PlainKeychainOptions = .init()) {
         self.service = service
         self.options = options
     }
@@ -43,7 +43,7 @@ public struct SimpleKeychain {
     public func setItem(_ value: String, forKey key: String) throws {
         
         guard let valueData = value.data(using: .utf8) else {
-            throw SimpleKeychainError.conversionError
+            throw PlainKeychainError.conversionError
         }
         
         var query: [CFString: Any] = [
@@ -67,19 +67,19 @@ public struct SimpleKeychain {
             let addStatus = SecItemAdd(query as CFDictionary, nil)
             
             if addStatus == errSecDuplicateItem {
-                throw SimpleKeychainError.itemAlreadyExists
+                throw PlainKeychainError.itemAlreadyExists
             }
             
             guard addStatus == errSecSuccess else {
-                throw SimpleKeychainError.otherError(status: addStatus)
+                throw PlainKeychainError.otherError(status: addStatus)
             }
             
-        } catch SimpleKeychainError.itemAlreadyExists {
+        } catch PlainKeychainError.itemAlreadyExists {
             
             let updateStatus = SecItemUpdate(query as CFDictionary, query as CFDictionary)
             
             guard updateStatus == errSecSuccess else {
-                throw SimpleKeychainError.otherError(status: updateStatus)
+                throw PlainKeychainError.otherError(status: updateStatus)
             }
             
         }
@@ -108,13 +108,13 @@ public struct SimpleKeychain {
         }
         
         guard getStatus == errSecSuccess else {
-            throw SimpleKeychainError.otherError(status: getStatus)
+            throw PlainKeychainError.otherError(status: getStatus)
         }
         
         guard let item = rawItem as? [String: Any],
               let itemData = item[kSecValueData as String] as? Data,
               let itemString = String(data: itemData, encoding: .utf8) else {
-            throw SimpleKeychainError.unexpectedItemData
+            throw PlainKeychainError.unexpectedItemData
         }
         
         return itemString
@@ -136,7 +136,7 @@ public struct SimpleKeychain {
         let status = SecItemDelete(query as CFDictionary)
         
         guard status == errSecSuccess else {
-            throw SimpleKeychainError.otherError(status: status)
+            throw PlainKeychainError.otherError(status: status)
         }
         
     }

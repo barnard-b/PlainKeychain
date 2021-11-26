@@ -1,5 +1,5 @@
 //
-//  SimpleKeychainError.swift
+//  PlainKeychainTests.swift
 //  Created by Benjamin Barnard on 11/24/21.
 //
 //  Copyright 2021 Benjamin Barnard.
@@ -17,15 +17,15 @@
 //  limitations under the License.
 
 import XCTest
-@testable import SimpleKeychain
+@testable import PlainKeychain
 
-final class SimpleKeychainTests: XCTestCase {
+final class PlainKeychainTests: XCTestCase {
     
     func testStoreRetrieveAndUpdate() {
         
         do {
         
-            let keychain = SimpleKeychain(service: "testStoreRetrieveAndUpdate")
+            let keychain = PlainKeychain(service: "testStoreRetrieveAndUpdate")
             
             let key = "username"
             let value = "example@example.com"
@@ -48,7 +48,7 @@ final class SimpleKeychainTests: XCTestCase {
         
         do {
             
-            let keychain = SimpleKeychain(service: "testDelete")
+            let keychain = PlainKeychain(service: "testDelete")
             
             let key = "password"
             let value = "123456<-NeverUseThisPassword😱"

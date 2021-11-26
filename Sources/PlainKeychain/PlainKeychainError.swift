@@ -1,5 +1,5 @@
 //
-//  SimpleKeychainError.swift
+//  PlainKeychainError.swift
 //  Created by Benjamin Barnard on 11/24/21.
 //
 //  Copyright 2021 Benjamin Barnard.
@@ -18,7 +18,7 @@
 
 import Foundation
 
-public enum SimpleKeychainError: LocalizedError {
+public enum PlainKeychainError: LocalizedError {
     
     case conversionError
     case itemAlreadyExists

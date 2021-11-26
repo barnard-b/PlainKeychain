@@ -1,4 +1,4 @@
-# SimpleKeychain
+# PlainKeychain
 A really simple key-value wrapper for keychain.
 
 ## Features
@@ -13,7 +13,7 @@ A really simple key-value wrapper for keychain.
 
 ## Example
 ```swift
-let keychain = SimpleKeychain(service: "MyApp")
+let keychain = PlainKeychain(service: "MyApp")
 
 try keychain.setItem("John", forKey: "nickname")
 

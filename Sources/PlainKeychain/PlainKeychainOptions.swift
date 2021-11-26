@@ -1,5 +1,5 @@
 //
-//  SimpleKeychainOptions.swift
+//  PlainKeychainOptions.swift
 //  Created by Benjamin Barnard on 11/25/21.
 //
 //  Copyright 2021 Benjamin Barnard.
@@ -19,9 +19,9 @@
 import Foundation
 
 /**
- Options for `SimpleKeychain`.
+ Options for `PlainKeychain`.
  */
-public struct SimpleKeychainOptions {
+public struct PlainKeychainOptions {
     
     /**
      Value supplied to `kSecAttrAccessible` when saving an item.
@@ -45,7 +45,7 @@ public struct SimpleKeychainOptions {
 }
 
 // MARK: - AccessRequirement
-extension SimpleKeychainOptions {
+extension PlainKeychainOptions {
     
     /**
      Attributes that specify where and when items can be accessed.
