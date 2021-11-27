@@ -46,20 +46,17 @@ public struct PlainKeychain {
             throw PlainKeychainError.conversionError
         }
         
-        var query: [CFString: Any] = [
+        let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccessible: options.accessRequirement.cfString,
             kSecAttrService: service,
             kSecAttrAccount: key,
-            kSecValueData: valueData
+            kSecValueData: valueData,
+            kSecAttrSynchronizable: options.iCloudEnabled
         ]
         
-        if options.iCloudEnabled {
-            if options.accessRequirement.forThisDeviceOnly {
-                assertionFailure("Items stored or obtained using the kSecAttrSynchronizable key may not also specify a kSecAttrAccessible value that is incompatible with syncing (namely, those whose names end with ThisDeviceOnly.). Disable iCloudEnabled or choose a different accessRequirement.")
-            } else {
-                query[kSecAttrSynchronizable] = options.iCloudEnabled
-            }
+        if options.iCloudEnabled && options.accessRequirement.forThisDeviceOnly {
+            assertionFailure("Items stored or obtained using the kSecAttrSynchronizable key may not also specify a kSecAttrAccessible value that is incompatible with syncing (namely, those whose names end with ThisDeviceOnly.). Disable iCloudEnabled or choose a different accessRequirement.")
         }
             
         do {
@@ -76,11 +73,8 @@ public struct PlainKeychain {
             
         } catch PlainKeychainError.itemAlreadyExists {
             
-            let updateStatus = SecItemUpdate(query as CFDictionary, query as CFDictionary)
-            
-            guard updateStatus == errSecSuccess else {
-                throw PlainKeychainError.otherError(status: updateStatus)
-            }
+            try deleteString(forKey: key)
+            try setString(value, forKey: key)
             
         }
     }
@@ -126,12 +120,12 @@ public struct PlainKeychain {
      */
     public func deleteString(forKey key: String) throws {
         
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service,
-            kSecAttrAccount as String: key,
-            kSecMatchLimit as String: kSecMatchLimitOne,
-            kSecReturnData as String: true]
+        let query: [CFString: Any] = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrService: service,
+            kSecAttrAccount: key,
+            kSecMatchLimit: kSecMatchLimitOne
+        ]
         
         let status = SecItemDelete(query as CFDictionary)
         
