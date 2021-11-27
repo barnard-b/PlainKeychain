@@ -124,12 +124,12 @@ public struct PlainKeychain {
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,
             kSecAttrAccount: key,
-            kSecMatchLimit: kSecMatchLimitOne
+            kSecReturnAttributes: true
         ]
         
         let status = SecItemDelete(query as CFDictionary)
         
-        guard status == errSecSuccess else {
+        guard status == errSecSuccess || status == errSecItemNotFound else {
             throw PlainKeychainError.otherError(status: status)
         }
         
