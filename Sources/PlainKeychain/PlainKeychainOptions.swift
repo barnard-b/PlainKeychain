@@ -90,30 +90,12 @@ extension PlainKeychainOptions {
         case whenPasscodeSetThisDeviceOnly
         
         
-        /**
-         From Apple documentation: `kSecAttrAccessibleAlways` Item data can always be accessed regardless of the lock state of the device.
-         
-         From Apple documentation: This is not recommended for anything except system use. Items with this attribute will migrate to a new device when using encrypted backups.
-         */
-        @available(*, deprecated, message: "From Apple documentation: Use an accessibility level that provides some user protection, such as kSecAttrAccessibleAfterFirstUnlock")
-        case always
-        
-        /**
-         From Apple documentation: `kSecAttrAccessibleAlwaysThisDeviceOnly` Item data can always be accessed regardless of the lock state of the device.
-         
-         From Apple documentation: This option is not recommended for anything except system use. Items with this attribute will never migrate to a new device, so after a backup is restored to a new device, these items will be missing.
-         */
-        @available(*, deprecated, message: "From Apple documentation: Use an accessibility level that provides some user protection, such as kSecAttrAccessibleAfterFirstUnlock")
-        case alwaysThisDeviceOnly
-        
         /// Specifies if this access requirement limits items to the current device only.
         public var forThisDeviceOnly: Bool {
             switch self {
                 case .afterFirstUnlock:
                     fallthrough
                 case .whenUnlocked:
-                    fallthrough
-                case .always:
                     return false
                     
                 case .afterFirstUnlockThisDeviceOnly:
@@ -121,8 +103,6 @@ extension PlainKeychainOptions {
                 case .whenUnlockedThisDeviceOnly:
                     fallthrough
                 case .whenPasscodeSetThisDeviceOnly:
-                    fallthrough
-                case .alwaysThisDeviceOnly:
                     return true
             }
         }
@@ -144,12 +124,6 @@ extension PlainKeychainOptions {
                     
                 case .whenPasscodeSetThisDeviceOnly:
                     return kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
-                    
-                // Deprecated
-                case .always:
-                    return kSecAttrAccessibleAlways
-                case .alwaysThisDeviceOnly:
-                    return kSecAttrAccessibleAlwaysThisDeviceOnly
                     
             }
         }
